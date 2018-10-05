@@ -6,6 +6,8 @@ import {ROWS, COLS} from './config';
 function SnakeGameLogic() {
   // 각 마디의 좌표를 저장하는 배열
   this.joints = [
+    {x: 4, y: 0},
+    {x: 3, y: 0},
     {x: 2, y: 0},
     {x: 1, y: 0},
     {x: 0, y: 0},
@@ -16,12 +18,18 @@ function SnakeGameLogic() {
 }
 
 SnakeGameLogic.prototype.up = function() {
+  return this.joints.reduce((acc, item) => item.y -= 1, -Infinity)
   // 위쪽 화살표 키를 누르면 실행되는 함수
   console.log('up');
 }
 
 SnakeGameLogic.prototype.down = function() {
   // 아래쪽 화살표 키를 누르면 실행되는 함수
+  this.joints[this.joints.length-1].y = this.joints[0].y+1 
+  this.joints[this.joints.length-1].x = this.joints[0].x
+  this.joints.unshift(this.joints[this.joints.length-1])
+  this.joints.pop()
+  // return this.joints.reduce((acc, item) => item.y += 1, -Infinity)
   console.log('down');
 }
 
@@ -32,6 +40,13 @@ SnakeGameLogic.prototype.left = function() {
 
 SnakeGameLogic.prototype.right = function() {
   // 오른쪽 화살표 키를 누르면 실행되는 함수
+  this.joints[this.joints.length-1].x = this.joints[0].x+1
+  this.joints[this.joints.length-1].y = this.joints[0].y 
+  this.joints.unshift(this.joints[this.joints.length-1])
+  this.joints.pop();
+  // joints[4].x+=5;
+  // joints.unshift(joints[4])
+  // joints.pop()
   console.log('right');
 }
 

@@ -21,25 +21,21 @@ function SnakeGameLogic() {
 SnakeGameLogic.prototype.up = function() {
   // 윗 방향키를 눌렀다고 기억
   this.memory = 'top'
-  console.log('top');
 }
 
 SnakeGameLogic.prototype.down = function() {
   // 아래 방향키를 눌렀다고 기억
   this.memory = 'down'
-  console.log('down');
 }
 
 SnakeGameLogic.prototype.left = function() {
   // 왼쪽 방향키를 눌렀다고 기억
   this.memory = 'left'
-  console.log('left');
 }
 
 SnakeGameLogic.prototype.right = function() {
   // 오른쪽 방향키를 눌렀다고 기억
   this.memory = 'right'
-  console.log('right');
 }
 
 SnakeGameLogic.prototype.nextState = function() {

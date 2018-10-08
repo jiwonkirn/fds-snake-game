@@ -1,5 +1,4 @@
 import {ROWS, COLS} from './config';
-import { throws } from 'assert';
 
 // NOTE: ROWS, COLS에는 행의 개수, 열의 개수가 저장되어 있습니다.
 // 이 변수를 활용해서 코드를 작성하세요!
@@ -11,10 +10,8 @@ function SnakeGameLogic() {
     {x: 1, y: 0},
     {x: 0, y: 0},
   ];
-
   // 시작할 때 오른쪽으로 움직임
   this.memory = 'right';
-
   // 먹이의 좌표
   this.fruit = {x: 3, y: 5};
 }
@@ -41,50 +38,42 @@ SnakeGameLogic.prototype.right = function() {
 
 SnakeGameLogic.prototype.nextState = function() {
   
-  // 머리를 담을 변수
-  let newHead
-  let join = this.joints
-  let mem = this.memory
-  let fruit = this.fruit
-
-  // 새로울 머리에 담을 좌표
+  // 새로운 머리를 담을 변수
+  let newHead;
+  const mem = this.memory;
+  const join = this.joint;
+  
   if (mem === 'right') {
-    newHead = {
+      newHead = {
       x : join[0].x + 1,
       y : join[0].y
+      }
+    } else if (mem === 'left') {
+      newHead = {
+        x : join[0].x - 1,
+        y : join[0].y
+        }
+    } else if (mem === 'top') {
+      newHead = {
+        x : join[0].x,
+        y : join[0].y - 1
+      }
+    } else if (mem === 'down') {
+      newHead = {
+        x : join[0].x,
+        y : join[0].y + 1
+      }
     }
-  } else if (mem === 'left') {
-    newHead = {
-      x: join[0].x - 1,
-      y: join[0].y
-    }
-  } else if (mem === 'top') {
-    newHead = {
-      x: join[0].x,
-      y: join[0].y - 1
-    }
-  } else if (mem === 'down') {
-    newHead = {
-      x: join[0].x,
-      y: join[0].y + 1
+
+  join.unshift(newHead);
+
+
+  // 머리의 위치와 나머지의 위치를 모두 한번씩 비교해봤을 때, 위치가 동일하면, 게임을 종료시킨다.
+  for (let i = 1; i < this.joints.length; i++) {
+    if (this.joints[0].x === this.joints[i].x && this.joints[0].y === this.joints[i].y) {
+      return false
     }
   }
-  
-  
-  // 먹이를 먹었을 때 꼬리가 늘어남
-  if (!(join[0].x === fruit.x && join[0].y === fruit.y)) {
-    this.joints.pop()
-  } else {
-    fruit.x = Math.floor(Math.random()*COLS);
-    fruit.y = Math.floor(Math.random()*ROWS);
-  }
-  
-  // 뱀이 자기 몸에 부딪혔을 때
-  if (this.joints.some(joints => joints.x === newHead.x && joints.y === newHead.y)) {
-    return false
-  }
-  
-  this.joints.unshift(newHead)
 
   // 머리가 특정 좌표 밖으로 나가면 게임을 종료시킨다.
   console.log(`nextState`);
